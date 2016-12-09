@@ -3,8 +3,15 @@
 # Change to current dir.
 cd "$(pwd)"
 
-# Get the total files
-total=$(ls "$(pwd)" | wc -l)
+# Check if a parameter is given                                                 
+if [[ -e $1 ]]                                                                  
+then  # if a selection is found, just count the files in that selection         
+    files="$1"                                                                  
+    total=$(ls "$files" | wc -l)                                                
+else  # if no parameter is given, count all files                                                                                                                                                                  
+    files="*"                                                                   
+    total=$(ls "$(pwd)" | wc -l)                                                
+fi 
 
 # Empty vars for stats and first percentage output
 converted=0
@@ -12,7 +19,7 @@ skipped=0
 echo -n "[                                                  ] 0%"
 
 # Loop all files in the current dir.
-for file in *; do
+for file in $files; do
   # Get the basename
   filename=$(basename "$file")
 
